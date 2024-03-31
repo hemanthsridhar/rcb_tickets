@@ -27,7 +27,7 @@ public class DriverFactory {
 
     @Before
     public void before() throws MalformedURLException {
-        boolean isLocal = Boolean.parseBoolean(System.getProperty("IS_LOCAL")) ? Boolean.parseBoolean(System.getProperty("IS_LOCAL")) : true;
+        boolean isLocal = Boolean.parseBoolean(System.getProperty("IS_LOCAL").equals("false") ? "false" : "true");
 
         if(isLocal) {
             System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
@@ -39,6 +39,7 @@ public class DriverFactory {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             capabilities.setBrowserName("chrome");
             ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless");
             options.addArguments("--remote-allow-origins=*");
             options.merge(capabilities);
             driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), options);
